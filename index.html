@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="EN-US">
+    <header>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="viewport" content="width-device-width, initial-scale-1.0">
+        <title>
+            MY FIRST PAGE WITH NODE-JS
+        </title>
+    </header>
+    <body>
+        <div class="container">
+            <form>
+                <table>
+                    <TD>
+                        <tr>
+                            <label>NUMERO 1</label>
+                        </tr>
+                        <tr>
+                            <INPUT type="number" id="num1" name="num1">                        
+                        </tr>
+                    </TD>            
+                    <TD>
+                        <tr>
+                            <label>NUMERO 2</label>
+                        </tr>
+                        <TR>
+                            <INPUT type="number" id="num2" name="num2">
+                        </TR>
+                    </TD>
+                    <td>
+                        <tr>
+                            <input type="submit" name="sum" id="sum" value="Sumar">
+                        </tr>
+                    </td>                    
+                </table>
+            </form>
+            <div class="result"> Click Add !!!!</div>
+        </div>
+        <script>
+            document.addEventListener("submit",sendData);
+            function sendData(e){
+                e.preventDefault();
+                const a = document.querySelector("#num1").value;
+                const b = document.querySelector("#num2").value;
+                fetch("http://localhost:5000/add",
+                {
+                    method:"POST",
+                    headers:{
+                    Accept:"Application/json",
+                    "Content-Type":"Application/json"
+                    },
+
+                    body:JSON.stringify({
+                    a:parseInt(a),
+                    b:parseInt(b)
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    const{result} = data;
+                    document.querySelector(".result").innerText=`La Suma es :${result}`;
+                }).catch(err=> console.log(err));
+            }
+        </script>
+    </body>
+</html>
